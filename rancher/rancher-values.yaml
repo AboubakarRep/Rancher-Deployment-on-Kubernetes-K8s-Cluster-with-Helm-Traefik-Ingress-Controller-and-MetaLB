@@ -1,0 +1,32 @@
+# rancher/rancher-values.yaml
+#hostname: rancher.10.64.13.211.nip.io
+
+hostname: rancher.k8s.ci
+
+replicas: 1
+
+image: rancher/rancher
+tag: v2.12.2
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  tls:
+    source: secret
+
+service:
+  type: LoadBalancer    # <-- C'est ici que tu spécifies que tu veux un LoadBalancer
+# loadBalancerIP: 10.64.13.211  # Si tu veux spécifier une IP fixe pour Rancher
+   
+
+extraEnv:
+  - name: CATTLE_PROMETHEUS_METRICS
+    value: "true"
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1536Mi
+  requests:
+    cpu: 500m
+    memory: 1024Mi

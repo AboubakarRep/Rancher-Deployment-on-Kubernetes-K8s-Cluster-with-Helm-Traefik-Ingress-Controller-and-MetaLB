@@ -1,0 +1,26 @@
+# rancher/rancher-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rancher
+  namespace: cattle-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: rancher.k8s.ci
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rancher
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - rancher.k8s.ci
+    secretName: tls-rancher-ingress
